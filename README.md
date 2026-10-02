@@ -1,5 +1,7 @@
 # Collaborative Code Review Platform
 
+<img src="https://socialify.git.ci/Thulile18/Code-Collaborative-Review-Platform/image?language=1&owner=1&name=1&stargazers=1&theme=Light" alt="Code-Collaborative-Review-Platform" width="640" height="320" />
+
 An API-driven service that lets development teams submit code, request reviews, and collaborate through inline comments, structured approvals, and real-time notifications — an alternative to noisy pull-request threads.
 
 ## Tech Stack
