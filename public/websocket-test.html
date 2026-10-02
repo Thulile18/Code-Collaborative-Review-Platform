@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Test</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>WebSocket Test</h2>
+  <p id="status">Connecting...</p>
+  <ul id="log"></ul>
+
+  <script>
+    const socket = io("http://localhost:3000");
+
+    socket.on("connect", () => {
+      document.getElementById("status").innerText = "Connected! Socket ID: " + socket.id;
+    });
+
+    socket.on("disconnect", () => {
+      document.getElementById("status").innerText = "Disconnected";
+    });
+
+    socket.on("new_comment", (data) => {
+      const li = document.createElement("li");
+      li.innerText = "New comment: " + JSON.stringify(data);
+      document.getElementById("log").appendChild(li);
+    });
+  </script>
+</body>
+</html>
