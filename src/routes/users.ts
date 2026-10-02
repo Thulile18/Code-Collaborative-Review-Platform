@@ -1,12 +1,15 @@
 import { Router, Response } from "express";
 import { pool } from "../db";
 import { authenticate, AuthRequest } from "../middleware/auth";
+import { asyncHandler } from "../middleware/errorHandler";
 
 const router = Router();
 
 // GET /api/users/:id — view a profile
-router.get("/:id", authenticate, async (req: AuthRequest, res: Response) => {
-  try {
+router.get(
+  "/:id",
+  authenticate,
+  asyncHandler(async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
 
     const result = await pool.query(
@@ -19,18 +22,16 @@ router.get("/:id", authenticate, async (req: AuthRequest, res: Response) => {
     }
 
     res.json(result.rows[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
+  })
+);
 
 // PATCH /api/users/:id — update your own profile
-router.patch("/:id", authenticate, async (req: AuthRequest, res: Response) => {
-  try {
+router.patch(
+  "/:id",
+  authenticate,
+  asyncHandler(async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
 
-    // Users can only edit their own profile
     if (req.user?.userId !== Number(id)) {
       return res.status(403).json({ error: "You can only edit your own profile" });
     }
@@ -52,10 +53,7 @@ router.patch("/:id", authenticate, async (req: AuthRequest, res: Response) => {
     );
 
     res.json(result.rows[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-});
+  })
+);
 
 export default router;
